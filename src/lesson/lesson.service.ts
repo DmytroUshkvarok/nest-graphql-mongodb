@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Lesson } from './lesson.entity';
 import { v4 } from 'uuid';
-import { CreateLessonInput, GetLessonInput } from './lesson.input';
+import { CreateLessonInput } from './inputs/create-lesson.input';
+import { GetLessonInput } from './inputs/get-lesson.input';
 
 @Injectable()
 export class LessonService {
@@ -22,7 +23,6 @@ export class LessonService {
         `Lesson with id '${getLessonInput.id}' was not found.`,
       );
     }
-    console.log(lesson);
 
     return lesson;
   }
@@ -34,7 +34,7 @@ export class LessonService {
   async createLesson(createLessonInput: CreateLessonInput): Promise<Lesson> {
     const lesson = this.lessonRepository.create({
       id: v4(),
-      name: createLessonInput.name,
+      title: createLessonInput.title,
       startDate: createLessonInput.startDate,
       endDate: createLessonInput.endDate,
     });
