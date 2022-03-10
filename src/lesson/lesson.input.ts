@@ -1,13 +1,22 @@
-import { ArgsType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import {
   IsDateString,
   IsNotEmpty,
+  IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
-@ArgsType()
-export class CreateLessonDto {
+@InputType()
+export class GetLessonInput {
+  @Field()
+  @IsNotEmpty()
+  @IsUUID(4)
+  id: string;
+}
+
+@InputType()
+export class CreateLessonInput {
   @Field()
   @IsNotEmpty()
   @MinLength(3)
