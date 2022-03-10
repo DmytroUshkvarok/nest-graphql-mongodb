@@ -14,6 +14,11 @@ export class LessonResolver {
     return this.lessonService.getLesson(getLessonInput);
   }
 
+  @Query(() => [LessonType])
+  lessons(): Promise<LessonType[]> {
+    return this.lessonService.getAllLessons();
+  }
+
   @Mutation(() => LessonType)
   createLesson(
     @Args('createLessonInput') createLessonInput: CreateLessonInput,
