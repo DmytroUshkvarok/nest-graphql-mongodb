@@ -5,6 +5,7 @@ import { Lesson } from './lesson.entity';
 import { v4 } from 'uuid';
 import { CreateLessonInput } from './inputs/create-lesson.input';
 import { GetLessonInput } from './inputs/get-lesson.input';
+import { AssignStudentsToLessonInput } from './inputs/assign-students-to-lesson.input';
 
 @Injectable()
 export class LessonService {
@@ -37,7 +38,22 @@ export class LessonService {
       title: createLessonInput.title,
       startDate: createLessonInput.startDate,
       endDate: createLessonInput.endDate,
+      students: createLessonInput.students,
     });
+
+    return this.lessonRepository.save(lesson);
+  }
+
+  async assignStudentsToLesson(
+    assignStudentsToLessonInput: AssignStudentsToLessonInput,
+  ): Promise<Lesson> {
+    const lesson = await this.getLesson({
+      id: assignStudentsToLessonInput.lessonId,
+    });
+    lesson.students = [
+      ...lesson.students,
+      ...assignStudentsToLessonInput.studentsIds,
+    ];
 
     return this.lessonRepository.save(lesson);
   }
